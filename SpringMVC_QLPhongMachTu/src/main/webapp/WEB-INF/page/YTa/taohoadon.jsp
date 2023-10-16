@@ -92,7 +92,7 @@
                         </div>
 
                         <div class="one2111 one21116">
-                            <a href="/SpringMVC_QLPhongMachTu/taohoadon?id=${id}" target="_blank">
+                            <a href="/SpringMVC_QLPhongMachTu/taohoadonvnpay?id=${id}" target="_blank">
                                 <img src="<c:url value='/img/vnpay.jpg'/>" />
                             </a>
                         </div>
