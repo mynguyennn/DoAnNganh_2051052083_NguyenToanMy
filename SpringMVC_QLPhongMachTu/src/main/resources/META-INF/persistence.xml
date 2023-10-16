@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="com.hmh_SpringMVC_QLPhongMachTu_war_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.hmh.pojo.HoaDon</class>
+    <class>com.hmh.pojo.Thuoc</class>
+    <class>com.hmh.pojo.ChiTietThuoc</class>
+    <class>com.hmh.pojo.PhieuDangKy</class>
+    <class>com.hmh.pojo.TaiKhoan</class>
+    <class>com.hmh.pojo.PhieuKhamBenh</class>
+    <class>com.hmh.pojo.YTa</class>
+    <class>com.hmh.pojo.BenhNhan</class>
+    <class>com.hmh.pojo.BacSi</class>
+    <class>com.hmh.pojo.DichVu</class>
+    <class>com.hmh.pojo.ThoiGianTruc</class>
+    <class>com.hmh.pojo.UserRole</class>
+    <class>com.hmh.pojo.ChiTietLichTruc</class>
+    <class>com.hmh.pojo.LichTruc</class>
+    <class>com.hmh.pojo.ChiTietDv</class>
+    <class>com.hmh.pojo.ChiTietThoiGianTruc</class>
+    <class>com.hmh.pojo.DonviThuoc</class>
+    <class>com.hmh.pojo.TienKham</class>
+    <class>com.hmh.pojo.LoaiThanhToan</class>
+    <class>com.hmh.pojo.LoaiThuoc</class>
+    <class>com.hmh.pojo.DanhGiaBs</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/hospitaldb?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="Hoang123@"/>
+    </properties>
+  </persistence-unit>
+</persistence>
