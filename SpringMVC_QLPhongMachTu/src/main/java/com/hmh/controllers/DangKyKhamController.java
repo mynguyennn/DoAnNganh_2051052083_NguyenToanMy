@@ -130,44 +130,44 @@ public class DangKyKhamController {
 
         if (pdk.getChonNgaykham() != null && !pdk.getThoiGianKham().isEmpty()) {
 
-            if (listPDK.isEmpty()) {
-
-                this.lapDsKhamService.themPhieuDangKy(pdk);
-
-                listPDK = (List<PhieuDangKy>) this.lapDsKhamService.getPDKByIdTaiKhoan(tk.getIdTk());
-                return "redirect:/benhnhan/lichsukham";
-            } else {
-                for (PhieuDangKy pdks : listPDK) {
-
-                    phieuDkyCuoiCung = pdks;
-
-                    if (phieuDkyCuoiCung != null) {
-                        Calendar calHienTai = Calendar.getInstance();
-                        calHienTai.setTime(ngayGioHienTai);
-                        int gioHienTai = calHienTai.get(Calendar.HOUR_OF_DAY);
-                        int phutHienTai = calHienTai.get(Calendar.MINUTE);
-
-                        Calendar calCuoiCung = Calendar.getInstance();
-                        calCuoiCung.setTime(phieuDkyCuoiCung.getThoiGianTaophieu());
-                        int gioCuoiCung = calCuoiCung.get(Calendar.HOUR_OF_DAY);
-                        int phutCuoiCung = calCuoiCung.get(Calendar.MINUTE);
-
-                        int tongPhutHienTai = gioHienTai * 60 + phutHienTai;
-                        int tongPhutCuoiCung = gioCuoiCung * 60 + phutCuoiCung;
-
-                        int khoangThoiGianPhut = tongPhutHienTai - tongPhutCuoiCung;
-
-                        if (khoangThoiGianPhut <= 1) {
-                            err = "Bệnh nhân chỉ được phép gửi phiếu đăng ký sau 1p kể từ lần gửi trước đó!";
-                            return "redirect:/benhnhan/dangkykham" + "?err=" + URLEncoder.encode(err, "UTF-8");
-                        }
-
-                    }
-////                    Date thoiGianTaoPhieu = pdks.getThoiGianTaophieu();
-////                    model.addAttribute("thoiGianTaoPhieu", thoiGianTaoPhieu);
-                }
-
-            }
+//            if (listPDK.isEmpty()) {
+//
+//                this.lapDsKhamService.themPhieuDangKy(pdk);
+//
+//                listPDK = (List<PhieuDangKy>) this.lapDsKhamService.getPDKByIdTaiKhoan(tk.getIdTk());
+//                return "redirect:/benhnhan/lichsukham";
+//            } else {
+//                for (PhieuDangKy pdks : listPDK) {
+//
+//                    phieuDkyCuoiCung = pdks;
+//
+//                    if (phieuDkyCuoiCung != null) {
+//                        Calendar calHienTai = Calendar.getInstance();
+//                        calHienTai.setTime(ngayGioHienTai);
+//                        int gioHienTai = calHienTai.get(Calendar.HOUR_OF_DAY);
+//                        int phutHienTai = calHienTai.get(Calendar.MINUTE);
+//
+//                        Calendar calCuoiCung = Calendar.getInstance();
+//                        calCuoiCung.setTime(phieuDkyCuoiCung.getThoiGianTaophieu());
+//                        int gioCuoiCung = calCuoiCung.get(Calendar.HOUR_OF_DAY);
+//                        int phutCuoiCung = calCuoiCung.get(Calendar.MINUTE);
+//
+//                        int tongPhutHienTai = gioHienTai * 60 + phutHienTai;
+//                        int tongPhutCuoiCung = gioCuoiCung * 60 + phutCuoiCung;
+//
+//                        int khoangThoiGianPhut = tongPhutHienTai - tongPhutCuoiCung;
+//
+//                        if (khoangThoiGianPhut <= 1) {
+//                            err = "Bệnh nhân chỉ được phép gửi phiếu đăng ký sau 1p kể từ lần gửi trước đó!";
+//                            return "redirect:/benhnhan/dangkykham" + "?err=" + URLEncoder.encode(err, "UTF-8");
+//                        }
+//
+//                    }
+//////                    Date thoiGianTaoPhieu = pdks.getThoiGianTaophieu();
+//////                    model.addAttribute("thoiGianTaoPhieu", thoiGianTaoPhieu);
+//                }
+//
+//            }
 
         } else {
             err = "Vui lòng nhập đủ thông tin!";
