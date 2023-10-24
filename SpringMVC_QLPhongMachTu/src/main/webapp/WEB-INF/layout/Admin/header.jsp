@@ -60,7 +60,7 @@
                     </a>
                     <a href="<c:url value ="/admin/thongkedanhgia"/>" class="nav__link active">
                         <i class='bx bx-stats ' ></i>
-                        <span class="nav__text">TK Danh gia</span>
+                        <span class="nav__text">TK Đánh giá</span>
                     </a>
 
                 </ul>

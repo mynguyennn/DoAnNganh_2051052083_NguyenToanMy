@@ -13,8 +13,12 @@
 
 
 
-<c:url value="/benhnhan/danhgia/${bacsi.idTk}" var="action"/>
-
+<c:url value="/benhnhan/danhgia/${bacsi.idTk}/${dsPdk.idPhieudk}" var="action"/>
+<c:if test="${err != null}">
+    <div class="alert1">
+        ${err}
+    </div>
+</c:if>
 <div class="mainprofile">
     <div>
         <div class="profile_bs">
@@ -59,14 +63,26 @@
                         <form:input type="text" id="danhgia" name="danhgia" path="binhLuan" placeholder="Đánh Giá"  required="true" />
                     </div>
                 </div>
-                
+
                 <div class="danhgia">
-                    <div class="danhgia2">
-                        <button type="submit">Đánh giá</button>
-                    </div>
+
+
+                    <c:choose>
+                        <c:when test="${empty dsdanhgia}">
+                            <div class="danhgia2">
+                                <button type="submit" >Đánh giá</button>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <button type="submit" disabled>Đánh giá</button>
+                        </c:otherwise>
+
+                    </c:choose>
+
+
                 </div>
 
-            </div>
+            </div>  
 
         </form:form>
         <h1>Các Bài Đánh Giá</h1>
@@ -101,7 +117,7 @@
                 <ul class="pagination mt-1">
                     <li class="page-item"><a class="page-link" href="${action}">Tất cả</a></li>
                         <c:forEach begin="1" end="${pages}" var="i">
-                            <c:url value="/benhnhan/danhgia/${bacsi.idTk}" var="pageUrl">
+                            <c:url value="/benhnhan/danhgia/${bacsi.idTk}/${dsPdk.idPhieudk}" var="pageUrl">
                                 <c:param name="page" value="${i}"/> 
                             </c:url>
                         <li class="page-item"><a class="page-link" href="${pageUrl}">${i}</a></li>

@@ -7,6 +7,7 @@ package com.hmh.controllers;
 import com.hmh.pojo.ChiTietThoiGianTruc;
 import com.hmh.pojo.PhieuDangKy;
 import com.hmh.pojo.TaiKhoan;
+import com.hmh.service.DanhGiaService;
 import com.hmh.service.TaiKhoanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -75,7 +76,8 @@ public class LapDsKhamController {
 
     @Autowired
     private ApiYTaController apiYTaController;
-
+    
+  
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(Date.class, customDateEditor);
@@ -90,6 +92,7 @@ public class LapDsKhamController {
         model.addAttribute("dskham", this.phieuDangKyService.getPhieuDangKy(params));
 //        model.addAttribute("dsbacsi", this.phieuDangKyService.getBacSi());
         model.addAttribute("dskham", this.phieuDangKyService.timKiemPDK(params));
+       
 
         return "lapdskham";
     }
@@ -129,50 +132,6 @@ public class LapDsKhamController {
         return "lapdskham";
     }
 
-    @GetMapping("yta/lapdskham/tuchoi/{id}")
-    public String tuChoiPDK(Model model, @PathVariable(value = "idPhieudk") int idPhieudk, @RequestParam Map<String, String> params, Authentication authentication, HttpServletRequest request) throws MessagingException {
-        if (authentication != null) {
-            UserDetails userDetails = taiKhoanService.loadUserByUsername(authentication.getName());
-            TaiKhoan tk = this.taiKhoanService.getTaiKhoanByUsername(userDetails.getUsername());
-            PhieuDangKy p = (PhieuDangKy) this.phieuDangKyService.getPhieuDangKyById(idPhieudk);
-            model.addAttribute("user", tk);
-            model.addAttribute("dskham", this.phieuDangKyService.getPhieuDangKy(params));
-            String tennguoinhan = p.getIdBn().getHoTen();
-//          
-            if (this.lapDsKhamService.tuChoi(p) == true) {
-//                MimeMessage message = javaMailSender.createMimeMessage();
-//                MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-//                String nguoinhan = p.getIdBn().getEmail();
-//                System.err.println(nguoinhan);
-//                helper.setTo(nguoinhan);
-//                helper.setSubject("LỊCH HẸN KHÁM TẠI PHÒNG MẠCH TƯ YOUR HEALTH");
-//
-//                String content = "<html><body>"
-//                        + "<p>Xin chào, " + tennguoinhan + "! </p>"
-//                        + "<p>Lịch khám mà bạn đăng ký đã bị từ chối. Vui lòng đăng ký lại lịch khám mới</p>"
-//                        + "</body></html>";
-//
-//                helper.setText(content, true);
-//
-//                javaMailSender.send(message);
-                return "redirect:/yta/lapdskham/";
-            }
-//            String smsBody = "Xin chào" + tennguoinhan + "!"
-//                    +"\nPhiếu khám đăng ký khám của bạn đã bị từ chối"
-//                    +"\n Vui lòng đăng ký khám lại vào ngày khác!";
-//            Twilio.init(this.evn.getProperty("twilio.accountSid"), this.evn.getProperty("twilio.authToken"));
-//            
-//            com.twilio.rest.api.v2010.account.Message sms = com.twilio.rest.api.v2010.account.Message.creator(
-//                    new PhoneNumber("+84837525517"),
-//                    new PhoneNumber(this.evn.getProperty("twilio.phoneNumber")),
-//                    smsBody).create();
-
-        }
-
-        return "lapdskham";
-
-    }
-
     @PostMapping("/yta/lapdskham")
     public String lapdskham(Model model, @ModelAttribute(value = "themDSpdk") PhieuDangKy pdk, BindingResult rs,
             @RequestParam Map<String, String> params) throws MessagingException, ParseException, UnsupportedEncodingException {
@@ -206,19 +165,19 @@ public class LapDsKhamController {
             if (!rs.hasErrors()) {
                 if (this.phieuDangKyService.themVaCapNhat(pdk) == true) {
                     if (pdk.getIdBs() != null) {
-                        String content
-                                = "\nXin chào, " + tennguoinhan + "!"
-                                + "\nBạn có lịch hẹn khám tại phòng mạch Health Couch vào ngày: " + ngaydikham + ""
-                                + "\nLịch khám vào buổi:  " + buoikham + "."
-                                //                        + "<p>Bác sĩ khám:  " + tenbacsi + ".</p>"
-                                + "\nRất mong bạn sẽ đến đúng hẹn!!";
-
-                        Twilio.init(this.evn.getProperty("twilio.accountSid"), this.evn.getProperty("twilio.authToken"));
-
-                        com.twilio.rest.api.v2010.account.Message sms = com.twilio.rest.api.v2010.account.Message.creator(
-                                new PhoneNumber("+84837525517"),
-                                new PhoneNumber(this.evn.getProperty("twilio.phoneNumber")),
-                                content).create();
+//                        String content
+//                                = "\nXin chào, " + tennguoinhan + "!"
+//                                + "\nBạn có lịch hẹn khám tại phòng mạch Health Couch vào ngày: " + ngaydikham + ""
+//                                + "\nLịch khám vào buổi:  " + buoikham + "."
+//                                //                        + "<p>Bác sĩ khám:  " + tenbacsi + ".</p>"
+//                                + "\nRất mong bạn sẽ đến đúng hẹn!!";
+//
+//                        Twilio.init(this.evn.getProperty("twilio.accountSid"), this.evn.getProperty("twilio.authToken"));
+//
+//                        com.twilio.rest.api.v2010.account.Message sms = com.twilio.rest.api.v2010.account.Message.creator(
+//                                new PhoneNumber("+84837525517"),
+//                                new PhoneNumber(this.evn.getProperty("twilio.phoneNumber")),
+//                                content).create();
 
 //                    MimeMessage message = javaMailSender.createMimeMessage();
 //                    MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -248,7 +207,7 @@ public class LapDsKhamController {
                         return "redirect:/yta/lapdskham/" + id + "?msg=" + URLEncoder.encode(msg, "UTF-8");
                     }
                     else {
-                        //Số điện thoại
+//                        Số điện thoại
                         String content
                                 = "\nXin chào, " + tennguoinhan + "!"
                                 + "\nChúng tôi rất tiếc ngày bạn chọn đi khám, không có bác sĩ trực ngày hôm đó. "

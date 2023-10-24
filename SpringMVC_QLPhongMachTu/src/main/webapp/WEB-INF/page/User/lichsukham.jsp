@@ -4,6 +4,7 @@
     Author     : Asus
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -44,6 +45,7 @@
 
                     <tbody>
                         <c:forEach items="${lskham}" var="p">
+                              
                             <tr>
                                 <td>${p.idBn.hoTen}</td>
 
@@ -79,19 +81,20 @@
                                     </c:choose>
                                 </td>
                                 <td>
+                                    
                                     <c:choose>
-                                        <c:when test="${p.idBs != null}">
-                                            <a  href="<c:url value="/benhnhan/danhgia/${p.idBs.idTk}"/>" > 
+                                        <c:when test="${p.idBs != null  and  p.idPk != null}">
+                                            <a  href="<c:url value="/benhnhan/danhgia/${p.idBs.idTk}/${p.idPhieudk}"/>" > 
                                                 <div class ="btn_lsk">Đánh Giá</div>
                                             </a>
                                         </c:when>
                                         <c:otherwise>
-                                            <a  href="<c:url value="/benhnhan/danhgia/${p.idBs.idTk}"/>" style="display: none"> 
+                                            <a  href="<c:url value="/benhnhan/danhgia/${p.idBs.idTk}/${p.idPhieudk}"/>" style="display: none"> 
                                                 <div class ="btn_lsk">Đánh Giá</div>
                                             </a>
                                         </c:otherwise>
                                     </c:choose>
-
+                                    
                                 </td>
 
                             </tr>

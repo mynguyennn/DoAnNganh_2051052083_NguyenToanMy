@@ -42,7 +42,7 @@
                         </div>
 
                         <div class="one1111">
-                            <input type="number" min="0" id="maXacNhan" name="maXacNhan" placeholder="Nhập mã xác nhận" oninput="kyTu(event)"/>
+                            <input type="number" min="0" id="maXacNhan" name="maXacNhan" placeholder="Nhập mã xác nhận" oninput="kyTu(event)" required="true"/>
                         </div>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                         </div>
 
                         <div class="one1111">
-                            <input type="password" id="matKhauMoi" name="matKhauMoi" placeholder="Nhập mật khẩu mới" oninput="kyTu(event)"/>
+                            <input type="password" id="matKhauMoi" name="matKhauMoi" placeholder="Nhập mật khẩu mới" oninput="kyTu(event)" required="true"/>
                         </div>
 
                     </div>

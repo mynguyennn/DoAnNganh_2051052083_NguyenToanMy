@@ -4,7 +4,6 @@
  */
 package com.hmh.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -29,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Asus
+ * @author LENOVO
  */
 @Entity
 @Table(name = "phieu_dang_ky")
@@ -40,12 +39,16 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "PhieuDangKy.findByTrangThaidky", query = "SELECT p FROM PhieuDangKy p WHERE p.trangThaidky = :trangThaidky"),
     @NamedQuery(name = "PhieuDangKy.findByChonNgaykham", query = "SELECT p FROM PhieuDangKy p WHERE p.chonNgaykham = :chonNgaykham"),
     @NamedQuery(name = "PhieuDangKy.findByThoiGianTaophieu", query = "SELECT p FROM PhieuDangKy p WHERE p.thoiGianTaophieu = :thoiGianTaophieu"),
-    @NamedQuery(name = "PhieuDangKy.findByThoiGianKham", query = "SELECT p FROM PhieuDangKy p WHERE p.thoiGianKham = :thoiGianKham")})
+    @NamedQuery(name = "PhieuDangKy.findByThoiGianKham", query = "SELECT p FROM PhieuDangKy p WHERE p.thoiGianKham = :thoiGianKham"),
+    @NamedQuery(name = "PhieuDangKy.findByTuChoi", query = "SELECT p FROM PhieuDangKy p WHERE p.tuChoi = :tuChoi")})
 public class PhieuDangKy implements Serializable {
+
+    @OneToMany(mappedBy = "idPdk")
+    private Set<DanhGiaBs> danhGiaBsSet;
 
     @Transient
     private String tenBenhNhanDky;
-
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,8 +57,6 @@ public class PhieuDangKy implements Serializable {
     private Integer idPhieudk;
     @Column(name = "trangThai_dky")
     private Short trangThaidky;
-    @Column(name = "tu_choi")
-    private Short tuChoi;
     @Column(name = "chon_ngaykham")
     @Temporal(TemporalType.DATE)
     private Date chonNgaykham;
@@ -65,9 +66,8 @@ public class PhieuDangKy implements Serializable {
     @Size(max = 45)
     @Column(name = "thoi_gian_kham")
     private String thoiGianKham;
-    @OneToMany(mappedBy = "idPhieudky")
-    @JsonIgnore
-    private Set<HoaDon> hoaDonSet;
+    @Column(name = "tu_choi")
+    private Short tuChoi;
     @JoinColumn(name = "id_pk", referencedColumnName = "id_phieukham")
     @ManyToOne
     private PhieuKhamBenh idPk;
@@ -80,9 +80,6 @@ public class PhieuDangKy implements Serializable {
     @JoinColumn(name = "id_yt", referencedColumnName = "id_tk")
     @ManyToOne
     private TaiKhoan idYt;
-    @OneToMany(mappedBy = "idPdk")
-    @JsonIgnore
-    private Set<ChiTietDv> chiTietDvSet;
 
     public PhieuDangKy() {
     }
@@ -131,13 +128,12 @@ public class PhieuDangKy implements Serializable {
         this.thoiGianKham = thoiGianKham;
     }
 
-    @XmlTransient
-    public Set<HoaDon> getHoaDonSet() {
-        return hoaDonSet;
+    public Short getTuChoi() {
+        return tuChoi;
     }
 
-    public void setHoaDonSet(Set<HoaDon> hoaDonSet) {
-        this.hoaDonSet = hoaDonSet;
+    public void setTuChoi(Short tuChoi) {
+        this.tuChoi = tuChoi;
     }
 
     public PhieuKhamBenh getIdPk() {
@@ -170,15 +166,6 @@ public class PhieuDangKy implements Serializable {
 
     public void setIdYt(TaiKhoan idYt) {
         this.idYt = idYt;
-    }
-
-    @XmlTransient
-    public Set<ChiTietDv> getChiTietDvSet() {
-        return chiTietDvSet;
-    }
-
-    public void setChiTietDvSet(Set<ChiTietDv> chiTietDvSet) {
-        this.chiTietDvSet = chiTietDvSet;
     }
 
     @Override
@@ -220,18 +207,13 @@ public class PhieuDangKy implements Serializable {
         this.tenBenhNhanDky = tenBenhNhanDky;
     }
 
-    /**
-     * @return the tuChoi
-     */
-    public Short getTuChoi() {
-        return tuChoi;
+    @XmlTransient
+    public Set<DanhGiaBs> getDanhGiaBsSet() {
+        return danhGiaBsSet;
     }
 
-    /**
-     * @param tuChoi the tuChoi to set
-     */
-    public void setTuChoi(Short tuChoi) {
-        this.tuChoi = tuChoi;
+    public void setDanhGiaBsSet(Set<DanhGiaBs> danhGiaBsSet) {
+        this.danhGiaBsSet = danhGiaBsSet;
     }
-
+    
 }

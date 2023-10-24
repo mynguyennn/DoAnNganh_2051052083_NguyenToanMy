@@ -17,11 +17,13 @@ import java.util.Map;
 public interface DanhGiaRepository {
     public PhieuDangKy getPdkById(int id);
     
-    boolean  luuDanhGia(int id, DanhGiaBs dg, int tk);
+    boolean  luuDanhGia(int id, DanhGiaBs dg, int tk, int idPdk);
     
     List<DanhGiaBs> getDgByIdBs(int id, Map<String, String> params);
     
     int demComment();
+    
+    List<DanhGiaBs> getDanhGia(int id);
    
     
 }

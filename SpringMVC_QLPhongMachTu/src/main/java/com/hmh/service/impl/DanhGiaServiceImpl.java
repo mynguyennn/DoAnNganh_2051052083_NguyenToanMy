@@ -30,9 +30,9 @@ public class DanhGiaServiceImpl implements DanhGiaService{
     }
 
     @Override
-    public boolean luuDanhGia(int id, DanhGiaBs dg, int tk) {
+    public boolean luuDanhGia(int id, DanhGiaBs dg, int tk, int idPdk) {
 //        dg.setDanhGia(dg.getDanhGia());
-       return this.danhGiaRepository.luuDanhGia(id, dg, tk);
+       return this.danhGiaRepository.luuDanhGia(id, dg, tk, idPdk);
     }
 
     @Override
@@ -43,6 +43,11 @@ public class DanhGiaServiceImpl implements DanhGiaService{
     @Override
     public int demComment() {
        return this.danhGiaRepository.demComment();
+    }
+
+    @Override
+    public List<DanhGiaBs> getDanhGia(int id) {
+       return  this.danhGiaRepository.getDanhGia(id);
     }
     
 }

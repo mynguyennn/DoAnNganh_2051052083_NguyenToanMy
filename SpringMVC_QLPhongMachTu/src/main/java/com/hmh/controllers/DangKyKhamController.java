@@ -102,6 +102,8 @@ public class DangKyKhamController {
 
         } else {
             err = "Cập nhật thông tin không thành công!";
+            
+          
         }
 
         model.addAttribute("err", err);
@@ -161,8 +163,8 @@ public class DangKyKhamController {
                         }
 
                     }
-//                    Date thoiGianTaoPhieu = pdks.getThoiGianTaophieu();
-//                    model.addAttribute("thoiGianTaoPhieu", thoiGianTaoPhieu);
+////                    Date thoiGianTaoPhieu = pdks.getThoiGianTaophieu();
+////                    model.addAttribute("thoiGianTaoPhieu", thoiGianTaoPhieu);
                 }
 
             }

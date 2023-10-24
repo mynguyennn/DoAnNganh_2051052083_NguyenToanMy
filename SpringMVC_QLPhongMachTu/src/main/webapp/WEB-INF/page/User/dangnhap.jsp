@@ -17,26 +17,24 @@
 
 
 <c:if test="${param.error !=null}">
+
     <div class="alert1">
-        Sai tài khoản hoặc mật khẩu!
+
+        <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />.
+
     </div>
 </c:if>
 
-
-<c:if test="${param.accessDenied != null}">
+<%--<c:if test="${param.accessDenied != null}">
     <div class="alert1">
         Không có quyền truy cập!
     </div>
-</c:if>
-
-
-
+</c:if>--%>
 
 
 <nav class="login">
     <div class="login_main1">  
         <form class="form_login" method="post" action="${action}">
-
             <p>ĐĂNG NHẬP</p>
             <div class="login0">
                 <div class="one">

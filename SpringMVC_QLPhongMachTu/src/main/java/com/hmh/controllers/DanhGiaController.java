@@ -6,11 +6,15 @@ package com.hmh.controllers;
 
 import com.hmh.pojo.TaiKhoan;
 import com.hmh.pojo.DanhGiaBs;
+import com.hmh.pojo.PhieuDangKy;
 import com.hmh.repository.LichSuKhamRepository;
 import com.hmh.service.DanhGiaService;
 import com.hmh.service.LapDsKhamService;
 import com.hmh.service.LichSuKhamService;
 import com.hmh.service.TaiKhoanService;
+import java.io.UnsupportedEncodingException;
+import static java.lang.System.err;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -42,8 +46,9 @@ public class DanhGiaController {
 
     @Autowired
     private TaiKhoanService taiKhoanService;
-    
-    @Autowired 
+    @Autowired
+    private LapDsKhamService lapDsKhamService;
+    @Autowired
     private Environment env;
 
 //    @GetMapping("/benhnhan/danhgia")
@@ -51,16 +56,19 @@ public class DanhGiaController {
 //        model.addAttribute("danhgia", new DanhGiaBs());
 //        return "danhgia";
 //    }
-    @GetMapping("/benhnhan/danhgia/{id}")
-    public String layDl(Model model, @PathVariable(value = "id") int id, @RequestParam Map<String, String> params) {
-        
+    @GetMapping("/benhnhan/danhgia/{id}/{idpdk}")
+    public String layDl(Model model, @PathVariable(value = "id") int id, @RequestParam Map<String, String> params, @PathVariable(value = "idpdk") int idpdk,@RequestParam(name = "err", required = false) String err) {
+
         model.addAttribute("bacsi", this.taiKhoanService.getTaiKhoanById(id));
-        model.addAttribute("dsdanhgia", this.danhGiaService.getDgByIdBs(id,params));
+        model.addAttribute("dsPdk", this.lapDsKhamService.getPhieuDangKyById(idpdk));
+        model.addAttribute("dsdanhgia", this.danhGiaService.getDgByIdBs(id, params));
+        model.addAttribute("dsdanhgia", this.danhGiaService.getDanhGia(idpdk));
         model.addAttribute("danhgia", new DanhGiaBs());
+         model.addAttribute("err", err);
         int dem = this.danhGiaService.demComment();
         int pageSize = Integer.parseInt(env.getProperty("PAGE_SIZE").toString());
-        model.addAttribute("pages", Math.ceil(dem*1.0/pageSize));
-        
+        model.addAttribute("pages", Math.ceil(dem * 1.0 / pageSize));
+
 //        List<DanhGiaBs> danhGiaBs = this.danhGiaService.getDgByIdBs(id);
 //        List<Integer> sao = new ArrayList<>();
 //        for(DanhGiaBs d : danhGiaBs)
@@ -84,17 +92,26 @@ public class DanhGiaController {
 
     }
 
-    @PostMapping("/benhnhan/danhgia/{id}")
+    @PostMapping("/benhnhan/danhgia/{id}/{idpdk}")
     public String lapdanhgia(Model model, @ModelAttribute(value = "danhgia") DanhGiaBs dg,
-            BindingResult rs, @PathVariable(value = "id") int id, Authentication authentication) {
-        
+            BindingResult rs, @PathVariable(value = "id") int id, Authentication authentication, @PathVariable(value = "idpdk") int idpdk) throws UnsupportedEncodingException {
+
+          String err = "";
         if (authentication != null) {
             UserDetails userDetails = taiKhoanService.loadUserByUsername(authentication.getName());
             Integer tk = this.taiKhoanService.getTaiKhoanByUsername(userDetails.getUsername()).getIdTk();
             if (!rs.hasErrors()) {
-                if (this.danhGiaService.luuDanhGia(id, dg, tk) == true) {
-                    return "redirect:/benhnhan/danhgia/{id}";
+                if(dg.getDanhGia() != null) {
+                    if (this.danhGiaService.luuDanhGia(id, dg, tk, idpdk) == true) {
+                        return "redirect:/benhnhan/danhgia/{id}/{idpdk}";
+                    }
                 }
+                else
+                {
+                    err = "Vui lòng chọn đánh giá!";
+                            return "redirect:/benhnhan/danhgia/{id}/{idpdk}" + "?err=" + URLEncoder.encode(err, "UTF-8");
+                }
+
             }
 
         }

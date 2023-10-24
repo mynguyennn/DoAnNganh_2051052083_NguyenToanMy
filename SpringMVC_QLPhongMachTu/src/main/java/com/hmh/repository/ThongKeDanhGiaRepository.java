@@ -4,10 +4,18 @@
  */
 package com.hmh.repository;
 
+import com.hmh.pojo.DanhGiaBs;
+import com.hmh.pojo.TaiKhoan;
+import java.util.List;
+
 /**
  *
  * @author LENOVO
  */
 public interface ThongKeDanhGiaRepository {
     
-}
+    List<Integer> getDgByIdBs(int id);
+    
+    List<Integer> getBacSi();
+    
+   }

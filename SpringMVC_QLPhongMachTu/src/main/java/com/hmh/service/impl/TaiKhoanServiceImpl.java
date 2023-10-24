@@ -25,6 +25,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -82,59 +84,58 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
         TaiKhoan user = users.get(0);
         if (users.isEmpty()) {
             throw new UsernameNotFoundException("Tài khoản không tồn tại!");
-        }
-
-        boolean canLogin = false;
-
-        List<Object> chiTietThoiGianTrucList = lichTrucRepository.getChiTietThoiGianTrucByIDTK(user);
-
-        if (chiTietThoiGianTrucList.isEmpty()) {
-            canLogin = true;
         } else {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+            boolean canLogin = false;
 
-            Date currentDate = new Date();
-            Date currentTime = new Date();
+            List<Object> chiTietThoiGianTrucList = lichTrucRepository.getChiTietThoiGianTrucByIDTK(user);
 
-            String formattedDate = formatter.format(currentDate);
-            String currentTimeStr = timeFormat.format(currentTime);
+            if (chiTietThoiGianTrucList.isEmpty()) {
+                canLogin = true;
+            } else {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 
-            try {
-                Date ngayHienTai = formatter.parse(formattedDate);
-                Date gioHienTai = timeFormat.parse(currentTimeStr);
+                Date currentDate = new Date();
+                Date currentTime = new Date();
 
-                for (Object chiTiet : chiTietThoiGianTrucList) {
-                    ChiTietThoiGianTruc chiTietThoiGianTruc = (ChiTietThoiGianTruc) chiTiet;
+                String formattedDate = formatter.format(currentDate);
+                String currentTimeStr = timeFormat.format(currentTime);
 
-                    ThoiGianTruc thoiGianTruc = chiTietThoiGianTruc.getIdTgTruc();
+                try {
+                    Date ngayHienTai = formatter.parse(formattedDate);
+                    Date gioHienTai = timeFormat.parse(currentTimeStr);
 
-                    Date startTime = thoiGianTruc.getBatDau();
-                    Date endTime = thoiGianTruc.getKetThuc();
+                    for (Object chiTiet : chiTietThoiGianTrucList) {
+                        ChiTietThoiGianTruc chiTietThoiGianTruc = (ChiTietThoiGianTruc) chiTiet;
 
-                    Date ngayDkyTruc = chiTietThoiGianTruc.getNgayDkyTruc();
+                        ThoiGianTruc thoiGianTruc = chiTietThoiGianTruc.getIdTgTruc();
 
-                    if (ngayDkyTruc.equals(ngayHienTai) && gioHienTai.after(startTime) && gioHienTai.before(endTime)) {
-                        canLogin = true;
-                        break;
+                        Date startTime = thoiGianTruc.getBatDau();
+                        Date endTime = thoiGianTruc.getKetThuc();
+
+                        Date ngayDkyTruc = chiTietThoiGianTruc.getNgayDkyTruc();
+
+                        if (ngayDkyTruc.equals(ngayHienTai) && gioHienTai.after(startTime) && gioHienTai.before(endTime)) {
+                            canLogin = true;
+                            break;
+                        } else {
+                            throw new LockedException("Tài khoản chưa tới giờ đăng nhập");
+                        }
+
                     }
+                } catch (ParseException ex) {
+                    Logger.getLogger(TaiKhoanServiceImpl.class.getName()).log(Level.SEVERE, "Lỗi khi phân tích ngày tháng", ex);
                 }
-            } catch (ParseException ex) {
-                Logger.getLogger(TaiKhoanServiceImpl.class.getName()).log(Level.SEVERE, "Lỗi khi phân tích ngày tháng", ex);
+            }
+
+            if (canLogin) {
+                Set<GrantedAuthority> authorities = new HashSet<>();
+                authorities.add(new SimpleGrantedAuthority(user.getIdRole().getChucVu()));
+                return new org.springframework.security.core.userdetails.User(user.getTaiKhoan(), user.getMatKhau(), authorities);
+            } else {
+                throw new InternalAuthenticationServiceException("Error loading user");
             }
         }
-
-        if (canLogin) {
-            Set<GrantedAuthority> authorities = new HashSet<>();
-            authorities.add(new SimpleGrantedAuthority(user.getIdRole().getChucVu()));
-            return new org.springframework.security.core.userdetails.User(user.getTaiKhoan(), user.getMatKhau(), authorities);
-
-        } else {
-            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-            HttpServletRequest request = attributes.getRequest();
-            request.setAttribute("loginError", "Ngoài giờ làm việc, vui lòng quay lại sau!");
-        }
-        return null;
     }
 
     @Override

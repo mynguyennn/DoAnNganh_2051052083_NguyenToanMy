@@ -8,6 +8,7 @@ import com.hmh.pojo.DanhGiaBs;
 import com.hmh.pojo.PhieuDangKy;
 import com.hmh.pojo.TaiKhoan;
 import com.hmh.repository.DanhGiaRepository;
+import com.hmh.repository.LapDsKhamRepository;
 import com.hmh.service.TaiKhoanService;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,9 @@ public class DanhGiaRepositoryImpl implements DanhGiaRepository {
 
     @Autowired
     private TaiKhoanService taiKhoanService;
+    
+    @Autowired
+    private LapDsKhamRepository lapDsKhamRepository;
     @Autowired
     private Environment env;
 
@@ -76,15 +80,18 @@ public class DanhGiaRepositoryImpl implements DanhGiaRepository {
     }
 
     @Override
-    public boolean luuDanhGia(int id, DanhGiaBs dg, int tk) {
+    public boolean luuDanhGia(int id, DanhGiaBs dg, int tk, int idPdk) {
         Session session = this.factory.getObject().getCurrentSession();
         TaiKhoan bacsi = this.taiKhoanService.getTaiKhoanById(id);
         TaiKhoan bn = this.taiKhoanService.getTaiKhoanById(tk);
+        PhieuDangKy idpdk = this.lapDsKhamRepository.getPhieuDangKyById(idPdk);
         try {
             if (dg.getId() == null) {
                 dg.setIdBn(bn);
                 dg.setIdBs(bacsi);
+                dg.setIdPdk(idpdk);
                 session.save(dg);
+               
                 return true;
             } else {
                 session.update(dg);
@@ -99,10 +106,19 @@ public class DanhGiaRepositoryImpl implements DanhGiaRepository {
     @Override
     public int demComment() {
         Session session = this.factory.getObject().getCurrentSession();
-        Query q = session.createQuery("Select Count(*) From DanhGiaBs");
-       
-
+       Query q = session.createQuery("Select Count(*) From DanhGiaBs");
         return Integer.parseInt(q.getSingleResult().toString());
+    }
+
+    @Override
+    public List<DanhGiaBs> getDanhGia(int id) {
+       Session session = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<DanhGiaBs> query = builder.createQuery(DanhGiaBs.class);
+        Root<DanhGiaBs> root = query.from(DanhGiaBs.class);
+        query.where(builder.equal(root.get("idPdk"), id));
+        Query q = session.createQuery(query);
+        return q.getResultList();
     }
 
 }

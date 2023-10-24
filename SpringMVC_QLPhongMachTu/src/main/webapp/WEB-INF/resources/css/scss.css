@@ -22,7 +22,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 /* Index */
 .index{
-    /*background-image: url('bg.png');*/
+    background-image: url('khambenhpurple.png');
     padding: 100px;
 
 }
@@ -256,7 +256,7 @@ ul.menucha > li > a:hover{
 
 /* Login */
 .login{
-    background-image: url('bg2.png');
+    background-image: url('doctorbg.png');
     background-size: 1920px 820px;
     padding: 190px;
     margin-bottom: 10px;
@@ -375,7 +375,7 @@ ul.menucha > li > a:hover{
 
 /*dangky*/
 .login1{
-    background-image: url('bg2.png');
+    background-image: url('doctorbg.png');
     background-size: 1920px 820px;
     padding: 145px 870px 145px 10px;
 }
@@ -726,7 +726,7 @@ select.buoiKham1{
     border-bottom-right-radius: 40px;
     border-top-right-radius: 40px;
     /*    background: rgb(240, 247, 239);*/
-    /*background-image: url('banner_bg.png');*/
+    background-image: url('khambenhpurple.png');
     border: .0px solid #5f66d1;
     padding: 1.25rem 0.5rem 1rem;
     transition: 0.5s;
@@ -1400,7 +1400,7 @@ tbody tr:nth-child(even) {
 .login_main1111 {
     display: flex;
     justify-content: flex-start;
-    box-shadow: 0px 0px 40px 0px #5f66d1;
+    box-shadow: 0px 0px 40px 0px #8d92df;
     padding: 50px;
     border-radius: 20px;
     flex-direction: column;
@@ -1581,7 +1581,7 @@ main.lskham{
     display: flex;
     justify-content: space-around;
     /*background: #f0f8ffba;*/
-    background-image: url('khambenh.png');
+    background-image: url('khambenhpurple.png');
     border: 0px solid aliceblue;
     box-shadow: 0px 2px 15px 0 #5f66d1;
 }
@@ -1715,7 +1715,7 @@ main.lskham{
 
     margin-top: 70px;
     border-radius: 30px;
-    /*background-image: url(banner_bg.png);*/
+    background-image: url(khambenhpurple.png);
     box-shadow: 0px 10px 40px 0px #5f66d1;
 
 }
@@ -2150,7 +2150,7 @@ main.saplichlam{
 }
 
 .login01111515{
-   
+
     padding-bottom: 50px;
 }
 
@@ -2482,3 +2482,14 @@ label.stars:before {
     content: '\f006';
     font-family: FontAwesome;
 }
+button[disabled] {
+    color: gray;
+    background-color: lightgray;
+    border-radius: 8px;
+    font-size: 16px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    font-family: 'Quicksand', sans-serif;
+}
+

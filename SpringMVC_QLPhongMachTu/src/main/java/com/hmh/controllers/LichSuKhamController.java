@@ -6,6 +6,7 @@ package com.hmh.controllers;
 
 import com.hmh.pojo.TaiKhoan;
 import com.hmh.repository.LichSuKhamRepository;
+import com.hmh.service.DanhGiaService;
 import com.hmh.service.LichSuKhamService;
 import com.hmh.service.TaiKhoanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,8 @@ public class LichSuKhamController {
     @Autowired
     private TaiKhoanService taiKhoanService;
 
-   
+    @Autowired
+    private DanhGiaService danhGiaService;
 
     @GetMapping("/benhnhan/lichsukham")
     public String lichsukham(Model model, Authentication authentication) {
@@ -42,11 +44,13 @@ public class LichSuKhamController {
         TaiKhoan u = this.taiKhoanService.getTaiKhoanByUsername(user.getUsername());
 
         model.addAttribute("lskham", this.lichSuKhamService.getPhieuDangKy(u));
+        
+        
 
         model.addAttribute("user", u);
 
         return "lichsukham";
-        
+
     }
 
 }

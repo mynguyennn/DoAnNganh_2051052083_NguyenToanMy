@@ -44,6 +44,9 @@ public class DanhGiaBs implements Serializable {
     @Size(max = 200)
     @Column(name = "binh_luan")
     private String binhLuan;
+    @JoinColumn(name = "id_pdk", referencedColumnName = "id_phieudk")
+    @ManyToOne
+    private PhieuDangKy idPdk;
     @JoinColumn(name = "id_bs", referencedColumnName = "id_tk")
     @ManyToOne
     private TaiKhoan idBs;
@@ -80,6 +83,14 @@ public class DanhGiaBs implements Serializable {
 
     public void setBinhLuan(String binhLuan) {
         this.binhLuan = binhLuan;
+    }
+
+    public PhieuDangKy getIdPdk() {
+        return idPdk;
+    }
+
+    public void setIdPdk(PhieuDangKy idPdk) {
+        this.idPdk = idPdk;
     }
 
     public TaiKhoan getIdBs() {
